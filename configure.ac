@@ -65,6 +65,11 @@ AC_CONFIG_FILES([debuginfod/Makefile])
 
 AC_CANONICAL_HOST
 
+AC_ARG_ENABLE([programs],
+	      AS_HELP_STRING([--disable-programs], [do not build utility programs]),
+	      [], [enable_programs=yes])
+AM_CONDITIONAL(ENABLE_PROGRAMS, test "$enable_programs" = yes)
+
 AC_ARG_ENABLE(deterministic-archives,
 [AS_HELP_STRING([--enable-deterministic-archives],
 		[ar and ranlib default to -D behavior])], [

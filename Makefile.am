@@ -27,7 +27,11 @@ AM_MAKEFLAGS = --no-print-directory
 pkginclude_HEADERS = version.h
 
 SUBDIRS = config m4 lib libelf libcpu backends libebl libdwelf libdwfl libdw \
-	  libasm src po doc tests
+	  libasm
+if ENABLE_PROGRAMS
+SUBDIRS += src
+endif
+SUBDIRS += po doc tests
 
 if DEBUGINFOD
 SUBDIRS += debuginfod

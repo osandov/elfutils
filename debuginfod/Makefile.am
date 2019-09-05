@@ -57,7 +57,9 @@ libeu = ../lib/libeu.a
 
 AM_LDFLAGS = -Wl,-rpath-link,../libelf:../libdw:.
 
+if ENABLE_PROGRAMS
 bin_PROGRAMS = debuginfod debuginfod-find
+endif
 debuginfod_SOURCES = debuginfod.cxx
 debuginfod_LDADD = $(libdw) $(libelf) $(libeu) $(libdebuginfod) $(libmicrohttpd_LIBS) $(libcurl_LIBS) $(sqlite3_LIBS) $(libarchive_LIBS) -lpthread -ldl
 
