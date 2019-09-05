@@ -35,8 +35,10 @@ AM_CPPFLAGS += -I$(srcdir)/../libelf -I$(srcdir)/../libdwelf -pthread
 VERSION = 1
 
 lib_LIBRARIES = libdw.a
+if ENABLE_SHARED
 noinst_LIBRARIES = libdw_pic.a
 noinst_PROGRAMS = $(noinst_LIBRARIES:_pic.a=.so)
+endif
 
 include_HEADERS = dwarf.h
 pkginclude_HEADERS = libdw.h known-dwarf.h
@@ -120,16 +122,20 @@ libdw.so$(EXEEXT): $(srcdir)/libdw.map $(libdw_so_LIBS) $(libdw_so_DEPS)
 	@$(textrel_check)
 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
 
+if ENABLE_SHARED
 install: install-am libdw.so
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	$(INSTALL_PROGRAM) libdw.so $(DESTDIR)$(libdir)/libdw-$(PACKAGE_VERSION).so
 	ln -fs libdw-$(PACKAGE_VERSION).so $(DESTDIR)$(libdir)/libdw.so.$(VERSION)
 	ln -fs libdw.so.$(VERSION) $(DESTDIR)$(libdir)/libdw.so
+endif
 
 uninstall: uninstall-am
+if ENABLE_SHARED
 	rm -f $(DESTDIR)$(libdir)/libdw-$(PACKAGE_VERSION).so
 	rm -f $(DESTDIR)$(libdir)/libdw.so.$(VERSION)
 	rm -f $(DESTDIR)$(libdir)/libdw.so
+endif
 	rmdir --ignore-fail-on-non-empty $(DESTDIR)$(includedir)/elfutils
 
 libdwfl_objects = $(shell $(AR) t ../libdwfl/libdwfl.a)

@@ -86,16 +86,20 @@ libdebuginfod.so$(EXEEXT): $(srcdir)/libdebuginfod.map $(libdebuginfod_so_LIBS)
 	@$(textrel_check)
 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
 
+if ENABLE_SHARED
 install: install-am libdebuginfod.so
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	$(INSTALL_PROGRAM) libdebuginfod.so $(DESTDIR)$(libdir)/libdebuginfod-$(PACKAGE_VERSION).so
 	ln -fs libdebuginfod-$(PACKAGE_VERSION).so $(DESTDIR)$(libdir)/libdebuginfod.so.$(VERSION)
 	ln -fs libdebuginfod.so.$(VERSION) $(DESTDIR)$(libdir)/libdebuginfod.so
+endif
 
 uninstall: uninstall-am
+if ENABLE_SHARED
 	rm -f $(DESTDIR)$(libdir)/libdebuginfod-$(PACKAGE_VERSION).so
 	rm -f $(DESTDIR)$(libdir)/libdebuginfod.so.$(VERSION)
 	rm -f $(DESTDIR)$(libdir)/libdebuginfod.so
+endif
 	rmdir --ignore-fail-on-non-empty $(DESTDIR)$(includedir)/elfutils
 
 EXTRA_DIST = libdebuginfod.map

@@ -70,6 +70,11 @@ AC_ARG_ENABLE([programs],
 	      [], [enable_programs=yes])
 AM_CONDITIONAL(ENABLE_PROGRAMS, test "$enable_programs" = yes)
 
+AC_ARG_ENABLE([shared],
+	      AS_HELP_STRING([--disable-shared], [do not build shared libraries]),
+	      [], [enable_shared=yes])
+AM_CONDITIONAL(ENABLE_SHARED, test "$enable_shared" = yes)
+
 AC_ARG_ENABLE(deterministic-archives,
 [AS_HELP_STRING([--enable-deterministic-archives],
 		[ar and ranlib default to -D behavior])], [

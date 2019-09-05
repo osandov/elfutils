@@ -34,7 +34,10 @@ AM_CPPFLAGS += -I$(srcdir)/../libelf -I$(srcdir)/../libdw \
 	       -I$(srcdir)/../libdwfl -I$(srcdir)/../libebl
 VERSION = 1
 
-noinst_LIBRARIES = libdwelf.a libdwelf_pic.a
+noinst_LIBRARIES = libdwelf.a
+if ENABLE_SHARED
+noinst_LIBRARIES += libdwelf_pic.a
+endif
 
 pkginclude_HEADERS = libdwelf.h
 noinst_HEADERS = libdwelfP.h

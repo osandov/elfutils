@@ -34,7 +34,10 @@ endif
 AM_CPPFLAGS += -I$(top_srcdir)/libebl -I$(top_srcdir)/libasm \
 	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw
 
-noinst_LIBRARIES = libebl_backends.a libebl_backends_pic.a
+noinst_LIBRARIES = libebl_backends.a
+if ENABLE_SHARED
+noinst_LIBRARIES += libebl_backends_pic.a
+endif
 
 modules = i386 sh x86_64 ia64 alpha arm aarch64 sparc ppc ppc64 s390 \
 	  tilegx m68k bpf riscv csky

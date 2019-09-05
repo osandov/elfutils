@@ -34,8 +34,10 @@ GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 VERSION = 1
 
 lib_LIBRARIES = libasm.a
+if ENABLE_SHARED
 noinst_LIBRARIES = libasm_pic.a
 noinst_PROGRAMS = $(noinst_LIBRARIES:_pic.a=.so)
+endif
 pkginclude_HEADERS = libasm.h
 
 libasm_a_SOURCES = asm_begin.c asm_abort.c asm_end.c asm_error.c \
@@ -72,16 +74,20 @@ libasm.so$(EXEEXT): $(srcdir)/libasm.map $(libasm_so_LIBS) $(libasm_so_DEPS)
 	@$(textrel_check)
 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
 
+if ENABLE_SHARED
 install: install-am libasm.so
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	$(INSTALL_PROGRAM) libasm.so $(DESTDIR)$(libdir)/libasm-$(PACKAGE_VERSION).so
 	ln -fs libasm-$(PACKAGE_VERSION).so $(DESTDIR)$(libdir)/libasm.so.$(VERSION)
 	ln -fs libasm.so.$(VERSION) $(DESTDIR)$(libdir)/libasm.so
+endif
 
 uninstall: uninstall-am
+if ENABLE_SHARED
 	rm -f $(DESTDIR)$(libdir)/libasm-$(PACKAGE_VERSION).so
 	rm -f $(DESTDIR)$(libdir)/libasm.so.$(VERSION)
 	rm -f $(DESTDIR)$(libdir)/libasm.so
+endif
 	rmdir --ignore-fail-on-non-empty $(DESTDIR)$(includedir)/elfutils
 
 noinst_HEADERS = libasmP.h symbolhash.h

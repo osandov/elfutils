@@ -38,7 +38,10 @@ LEXCOMPILE = $(LEX) $(LFLAGS) $(AM_LFLAGS) -P$(<F:lex.l=)
 LEX_OUTPUT_ROOT = lex.$(<F:lex.l=)
 AM_YFLAGS = -p$(<F:parse.y=)
 
-noinst_LIBRARIES = libcpu.a libcpu_pic.a
+noinst_LIBRARIES = libcpu.a
+if ENABLE_SHARED
+noinst_LIBRARIES += libcpu_pic.a
+endif
 
 noinst_HEADERS = i386_dis.h x86_64_dis.h
 

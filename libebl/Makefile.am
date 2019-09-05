@@ -34,7 +34,10 @@ endif
 AM_CPPFLAGS += -I$(srcdir)/../libelf -I$(srcdir)/../libdw -I$(srcdir)/../libasm
 VERSION = 1
 
-noinst_LIBRARIES = libebl.a libebl_pic.a
+noinst_LIBRARIES = libebl.a
+if ENABLE_SHARED
+noinst_LIBRARIES += libebl_pic.a
+endif
 
 libebl_a_SOURCES = eblopenbackend.c eblclosebackend.c eblreloctypename.c \
 		   eblsegmenttypename.c eblsectiontypename.c \

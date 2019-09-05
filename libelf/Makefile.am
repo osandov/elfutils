@@ -35,8 +35,10 @@ GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 VERSION = 1
 
 lib_LIBRARIES = libelf.a
+if ENABLE_SHARED
 noinst_LIBRARIES = libelf_pic.a
 noinst_PROGRAMS = $(noinst_LIBRARIES:_pic.a=.so)
+endif
 include_HEADERS = libelf.h gelf.h nlist.h
 
 noinst_HEADERS = abstract.h common.h exttypes.h gelf_xlate.h libelfP.h \
@@ -122,6 +124,7 @@ libelf.so$(EXEEXT): $(srcdir)/libelf.map $(libelf_so_LIBS) $(libelf_so_DEPS)
 	@$(textrel_check)
 	$(AM_V_at)ln -fs $@ $@.$(VERSION)
 
+if ENABLE_SHARED
 install: install-am libelf.so
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	$(INSTALL_PROGRAM) libelf.so $(DESTDIR)$(libdir)/libelf-$(PACKAGE_VERSION).so
@@ -132,6 +135,7 @@ uninstall: uninstall-am
 	rm -f $(DESTDIR)$(libdir)/libelf-$(PACKAGE_VERSION).so
 	rm -f $(DESTDIR)$(libdir)/libelf.so.$(VERSION)
 	rm -f $(DESTDIR)$(libdir)/libelf.so
+endif
 
 EXTRA_DIST = libelf.map
 

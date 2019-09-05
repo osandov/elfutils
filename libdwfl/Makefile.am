@@ -35,7 +35,9 @@ AM_CPPFLAGS += -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
 VERSION = 1
 
 noinst_LIBRARIES = libdwfl.a
+if ENABLE_SHARED
 noinst_LIBRARIES += libdwfl_pic.a
+endif
 
 pkginclude_HEADERS = libdwfl.h
 
