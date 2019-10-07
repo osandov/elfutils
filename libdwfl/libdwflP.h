@@ -239,7 +239,8 @@ struct Dwfl_Thread
 {
   Dwfl_Process *process;
   pid_t tid;
-  /* Bottom (innermost) frame while we're initializing, NULL afterwards.  */
+  /* Bottom (innermost) frame.  If the stack trace is not cached, then this is
+     NULL except during initialization.  */
   Dwfl_Frame *unwound;
   void *callbacks_arg;
 };

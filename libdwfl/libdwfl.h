@@ -763,6 +763,18 @@ int dwfl_getthreads (Dwfl *dwfl,
 		     void *arg)
   __nonnull_attribute__ (1, 2);
 
+/* Attach to a thread.  The returned thread must be detached and freed with
+   dwfl_detach_thread.  Returns NULL on error.  This calls the
+   set_initial_registers callback.  While a thread is attached,
+   dwfl_thread_getframes will cache the unwound frames for the thread.  They
+   remain valid until dwfl_detach_thread is called.  */
+Dwfl_Thread *dwfl_attach_thread(Dwfl *dwfl, pid_t tid)
+  __nonnull_attribute__ (1);
+
+/* Detach from a thread that was attached with dwfl_attach_thread and free it.
+   This calls the detach_thread callback.  */
+void dwfl_detach_thread(Dwfl_Thread *thread);
+
 /* Iterate through the frames for a thread.  Returns zero if all frames
    have been processed by the callback, returns -1 on error, or the value of
    the callback when not DWARF_CB_OK.  -1 returned on error will
