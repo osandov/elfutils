@@ -822,6 +822,12 @@ bool dwfl_frame_pc (Dwfl_Frame *state, Dwarf_Addr *pc, bool *isactivation)
 bool dwfl_frame_register (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *value)
   __nonnull_attribute__ (1);
 
+/* Evaluate a DWARF expression in the context of a frame.  On success, returns
+   true and fills in *RESULT.  On error, returns false.  */
+bool dwfl_frame_eval_expr (Dwfl_Frame *state, const Dwarf_Op *ops, size_t nops,
+			   Dwarf_Addr *result)
+  __nonnull_attribute__ (1, 2, 4);
+
 #ifdef __cplusplus
 }
 #endif

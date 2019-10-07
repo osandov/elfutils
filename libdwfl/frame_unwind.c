@@ -837,3 +837,14 @@ __libdwfl_frame_unwind (Dwfl_Frame *state)
   assert (state->unwound->pc_state == DWFL_FRAME_STATE_PC_SET);
   state->unwound->signal_frame = signal_frame;
 }
+
+bool
+dwfl_frame_eval_expr (Dwfl_Frame *state, const Dwarf_Op *ops, size_t nops,
+		      Dwarf_Addr *result)
+{
+  Dwarf_Addr bias;
+  Dwarf_Frame *frame = dwfl_frame_dwarf_frame(state, &bias);
+  if (frame == NULL)
+    return false;
+  return expr_eval (state, frame, ops, nops, result, bias);
+}

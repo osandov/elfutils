@@ -377,4 +377,5 @@ ELFUTILS_0.180 {
     dwfl_frame_register;
     dwfl_frame_module;
     dwfl_frame_dwarf_frame;
+    dwfl_frame_eval_expr;
 } ELFUTILS_0.177;
