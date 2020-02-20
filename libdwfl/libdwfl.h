@@ -807,6 +807,11 @@ int dwfl_getthread_frames (Dwfl *dwfl, pid_t tid,
 bool dwfl_frame_pc (Dwfl_Frame *state, Dwarf_Addr *pc, bool *isactivation)
   __nonnull_attribute__ (1, 2);
 
+/* Return the *VALUE of register REGNO in frame STATE.  VALUE may be NULL.
+   Returns false if the register value is unknown.  */
+bool dwfl_frame_register (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *value)
+  __nonnull_attribute__ (1);
+
 #ifdef __cplusplus
 }
 #endif

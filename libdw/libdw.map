@@ -374,4 +374,5 @@ ELFUTILS_0.180 {
   global:
     dwfl_attach_thread;
     dwfl_detach_thread;
+    dwfl_frame_register;
 } ELFUTILS_0.177;

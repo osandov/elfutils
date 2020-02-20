@@ -44,8 +44,7 @@
 #define DWARF_EXPR_STEPS_MAX 0x1000
 
 bool
-internal_function
-__libdwfl_frame_reg_get (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *val)
+dwfl_frame_register (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *val)
 {
   Ebl *ebl = state->thread->process->ebl;
   if (! ebl_dwarf_to_regno (ebl, &regno))
@@ -59,6 +58,7 @@ __libdwfl_frame_reg_get (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *val)
     *val = state->regs[regno];
   return true;
 }
+INTDEF (dwfl_frame_register)
 
 bool
 internal_function
@@ -81,7 +81,7 @@ __libdwfl_frame_reg_set (Dwfl_Frame *state, unsigned regno, Dwarf_Addr val)
 static bool
 state_get_reg (Dwfl_Frame *state, unsigned regno, Dwarf_Addr *val)
 {
-  if (! __libdwfl_frame_reg_get (state, regno, val))
+  if (! INTUSE(dwfl_frame_register) (state, regno, val))
     {
       __libdwfl_seterrno (DWFL_E_INVALID_REGISTER);
       return false;
@@ -634,9 +634,9 @@ handle_cfi (Dwfl_Frame *state, Dwarf_Addr pc, Dwarf_CFI *cfi, Dwarf_Addr bias)
     }
   if (unwound->pc_state == DWFL_FRAME_STATE_ERROR)
     {
-      if (__libdwfl_frame_reg_get (unwound,
-				   frame->fde->cie->return_address_register,
-				   &unwound->pc))
+      if (INTUSE(dwfl_frame_register) (unwound,
+				       frame->fde->cie->return_address_register,
+				       &unwound->pc))
 	{
 	  /* PPC32 __libc_start_main properly CFI-unwinds PC as zero.
 	     Currently none of the archs supported for unwinding have
@@ -694,7 +694,7 @@ getfunc (int firstreg, unsigned nregs, Dwarf_Word *regs, void *arg)
   Dwfl_Frame *state = arg;
   assert (firstreg >= 0);
   while (nregs--)
-    if (! __libdwfl_frame_reg_get (state, firstreg++, regs++))
+    if (! INTUSE(dwfl_frame_register) (state, firstreg++, regs++))
       return false;
   return true;
 }

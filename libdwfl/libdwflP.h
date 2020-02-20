@@ -275,12 +275,6 @@ struct Dwfl_Frame
   Dwarf_Addr regs[];
 };
 
-/* Fetch value from Dwfl_Frame->regs indexed by DWARF REGNO.
-   No error code is set if the function returns FALSE.  */
-bool __libdwfl_frame_reg_get (Dwfl_Frame *state, unsigned regno,
-			      Dwarf_Addr *val)
-  internal_function;
-
 /* Store value to Dwfl_Frame->regs indexed by DWARF REGNO.
    No error code is set if the function returns FALSE.  */
 bool __libdwfl_frame_reg_set (Dwfl_Frame *state, unsigned regno,
@@ -778,6 +772,7 @@ INTDECL (dwfl_getthread_frames)
 INTDECL (dwfl_getthreads)
 INTDECL (dwfl_thread_getframes)
 INTDECL (dwfl_frame_pc)
+INTDECL (dwfl_frame_register)
 
 /* Leading arguments standard to callbacks passed a Dwfl_Module.  */
 #define MODCB_ARGS(mod)	(mod), &(mod)->userdata, (mod)->name, (mod)->low_addr
