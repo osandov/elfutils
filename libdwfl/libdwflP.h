@@ -252,6 +252,15 @@ struct Dwfl_Frame
   Dwfl_Thread *thread;
   /* Previous (outer) frame.  */
   Dwfl_Frame *unwound;
+  /* Module containing pc.  */
+  Dwfl_Module *mod;
+  /* CFI frame containing pc.  */
+  Dwarf_Frame *frame;
+  Dwarf_Addr bias;
+  /* Error trying to get mod.  */
+  Dwfl_Error moderr;
+  /* Error trying to get frame.  */
+  Dwfl_Error frameerr;
   bool signal_frame : 1;
   bool initial_frame : 1;
   enum

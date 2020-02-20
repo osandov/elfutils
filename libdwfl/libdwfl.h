@@ -738,6 +738,16 @@ pid_t dwfl_thread_tid (Dwfl_Thread *thread)
 Dwfl_Thread *dwfl_frame_thread (Dwfl_Frame *state)
   __nonnull_attribute__ (1);
 
+/* Return module containing the PC for frame STATE.  Returns NULL if no module
+   contains the PC.  */
+Dwfl_Module *dwfl_frame_module (Dwfl_Frame *state)
+  __nonnull_attribute__ (1);
+
+/* Return CFI frame for frame STATE.  Returns NULL if no CFI frame was
+   found.  The returned frame is valid until STATE is freed.  */
+Dwarf_Frame *dwfl_frame_dwarf_frame (Dwfl_Frame *state, Dwarf_Addr *bias)
+  __nonnull_attribute__ (1, 2);
+
 /* Called by Dwfl_Thread_Callbacks.set_initial_registers implementation.
    For every known continuous block of registers <FIRSTREG..FIRSTREG+NREGS)
    (inclusive..exclusive) set their content to REGS (array of NREGS items).
